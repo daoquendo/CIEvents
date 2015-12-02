@@ -6,26 +6,27 @@ import cievents.createEventsUI;
 
 public class WeatherApp extends javax.swing.JFrame 
 {
-    public static String ciLoc;
+    private String loc;
     /**
      * Creates new form WeatherApp
      */
-    public WeatherApp() 
+    public WeatherApp(String loc) 
     {
+        this.loc = loc;
         initComponents();
         getWeather();
     }
     
     private void getWeather()
     {
-        String city = "Cal State Channel Islands";
+        //String city = "Cal State Channel Islands";
         String code = " ";
         
-        switch (city) {
+        switch (loc) {
             case "Cal State Channel Islands":
                 code = "2373505";
                 break;
-            case "UC Santa Barba":
+            case "UC Santa Barbara":
                 code = "2488828";
                 break;
             case "UC Santa Rosa Islands":
@@ -161,7 +162,7 @@ public class WeatherApp extends javax.swing.JFrame
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new WeatherApp().setVisible(true);
+                //new WeatherApp().setVisible(true);
             }
         });
     }

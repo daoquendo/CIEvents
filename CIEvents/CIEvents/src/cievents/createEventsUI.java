@@ -6,8 +6,10 @@
 package cievents;
 import cievents.WeatherApp;
 import java.sql.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import cievents.EventsUI;
 
 /**
  *
@@ -18,14 +20,37 @@ public class createEventsUI extends javax.swing.JFrame
     Connection conn=null;
     PreparedStatement pst=null;
     ResultSet rs=null;
+    private Event event;
+    private WeatherApp weather;
+    private final ArrayList<String> inviteList;
+    private Database database;
+    private Email mail;
+    public static String userName;
+    public static String password;
+    
+    
     //public static String ciLocation;
 
     /**
      * Creates new form createEventsUI
      */
-    public createEventsUI() {
-        initComponents();
+    public createEventsUI() 
+    {
+        initComponents();  
+         this.weather = weather;
+        inviteList = new ArrayList<String>();
+        this.database = database;
+        
+        
+     
     }
+    
+    private void retrive()
+    {
+         DefaultTableModel model = new DBUpdate().getData();
+         ciTable.setModel(model);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,59 +61,76 @@ public class createEventsUI extends javax.swing.JFrame
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        ciEventName = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        ciWhere = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ciTable = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        ciMonth = new javax.swing.JComboBox();
-        jLabel7 = new javax.swing.JLabel();
-        ciDay = new javax.swing.JComboBox();
-        jLabel8 = new javax.swing.JLabel();
-        ciYear = new javax.swing.JComboBox();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        ciTable = new javax.swing.JTable();
         ciAddButton = new javax.swing.JButton();
-        ciDeleteUpdate = new javax.swing.JButton();
-        ciUpdateButton = new javax.swing.JButton();
-        ErrorMessage = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        ciCreator = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        ciTime = new javax.swing.JComboBox();
-        ciToD = new javax.swing.JComboBox();
-        ciMin = new javax.swing.JComboBox();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        ciWeatherButton = new javax.swing.JButton();
-        inviteButton = new javax.swing.JButton();
+        viewEvents = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         ciDesc = new javax.swing.JTextArea();
+        ciWhere = new javax.swing.JComboBox();
+        jLabel11 = new javax.swing.JLabel();
+        ciTime = new javax.swing.JComboBox();
+        jLabel7 = new javax.swing.JLabel();
+        ciEventName = new javax.swing.JTextField();
+        ciMin = new javax.swing.JComboBox();
+        ciDay = new javax.swing.JComboBox();
+        ciDeleteUpdate = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        ciYear = new javax.swing.JComboBox();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        inviteButton = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        ciToD = new javax.swing.JComboBox();
+        ciWeatherButton = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        ciMonth = new javax.swing.JComboBox();
+        jLabel12 = new javax.swing.JLabel();
+        ciCreator = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        ciguest = new javax.swing.JTextArea();
+        ciGuest = new javax.swing.JTextArea();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        ciUpdateButton = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        invites = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setText("Event Manger");
+        jLabel6.setText("Month:");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel2.setText("Event Name: ");
+        ciTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ciTableMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(ciTable);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel3.setText("Description: ");
+        ciAddButton.setText("Add Event");
+        ciAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ciAddButtonActionPerformed(evt);
+            }
+        });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel4.setText("When:");
+        viewEvents.setText("View Events");
+        viewEvents.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewEventsActionPerformed(evt);
+            }
+        });
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel5.setText("Where: ");
+        ciDesc.setColumns(20);
+        ciDesc.setRows(5);
+        jScrollPane3.setViewportView(ciDesc);
 
-        ciWhere.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Cal State Channel Islands", "UC Santa Barba", "UC Santa Rosa Islands", "", "" }));
+        ciWhere.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Cal State Channel Islands", "UC Santa Barbara", "UC Santa Rosa Islands", " ", " " }));
         ciWhere.setSelectedItem(1);
         ciWhere.setToolTipText("");
         ciWhere.addActionListener(new java.awt.event.ActionListener() {
@@ -97,52 +139,19 @@ public class createEventsUI extends javax.swing.JFrame
             }
         });
 
-        ciTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel11.setText("Creator Name: ");
 
-            },
-            new String [] {
-                "Creator Name", "Event Name", "Date", "Time", "Location"
-            }
-        ));
-        ciTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ciTableMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(ciTable);
-
-        jLabel6.setText("Month:");
-
-        ciMonth.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", " " }));
-        ciMonth.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ciMonthActionPerformed(evt);
-            }
-        });
+        ciTime.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
 
         jLabel7.setText("Day:");
 
-        ciDay.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }));
+        ciMin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "56", "57", "58", "59" }));
+
+        ciDay.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
         ciDay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ciDayActionPerformed(evt);
-            }
-        });
-
-        jLabel8.setText("Year:");
-
-        ciYear.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2015", "2016" }));
-        ciYear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ciYearActionPerformed(evt);
-            }
-        });
-
-        ciAddButton.setText("Add Event");
-        ciAddButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ciAddButtonActionPerformed(evt);
             }
         });
 
@@ -153,41 +162,36 @@ public class createEventsUI extends javax.swing.JFrame
             }
         });
 
-        ciUpdateButton.setText("Update");
-        ciUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel9.setText("Check Weather: ");
+
+        ciYear.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2015", "2016" }));
+        ciYear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ciUpdateButtonActionPerformed(evt);
+                ciYearActionPerformed(evt);
             }
         });
-
-        ErrorMessage.setForeground(new java.awt.Color(255, 51, 51));
-
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel12.setText("Invite:");
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel11.setText("Creator Name: ");
-
-        ciCreator.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ciCreatorActionPerformed(evt);
-            }
-        });
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel13.setText("Time: ");
-
-        ciTime.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
-
-        ciToD.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AM", "PM" }));
-
-        ciMin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "56", "57", "58", "59" }));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText(":");
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel9.setText("Check Weather: ");
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setText("Where: ");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel3.setText("Description: ");
+
+        inviteButton.setText("Invite");
+        inviteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inviteButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel4.setText("When:");
+
+        ciToD.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AM", "PM" }));
 
         ciWeatherButton.setText("Weather");
         ciWeatherButton.addActionListener(new java.awt.event.ActionListener() {
@@ -196,109 +200,148 @@ public class createEventsUI extends javax.swing.JFrame
             }
         });
 
-        inviteButton.setText("Invite");
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel13.setText("Time: ");
 
-        ciDesc.setColumns(20);
-        ciDesc.setRows(5);
-        jScrollPane3.setViewportView(ciDesc);
+        ciMonth.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", " " }));
+        ciMonth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ciMonthActionPerformed(evt);
+            }
+        });
 
-        ciguest.setColumns(20);
-        ciguest.setRows(5);
-        jScrollPane2.setViewportView(ciguest);
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel12.setText("Invite:");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        ciCreator.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ciCreatorActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Year:");
+
+        ciGuest.setColumns(20);
+        ciGuest.setRows(5);
+        jScrollPane2.setViewportView(ciGuest);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setText("Event Name: ");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setText("Event Manger");
+
+        ciUpdateButton.setText("Update");
+        ciUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ciUpdateButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel14.setText("Invite List:");
+
+        jScrollPane5.setViewportView(invites);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel3)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addGap(20, 20, 20)
-                                    .addComponent(jLabel6)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(ciMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel7)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(ciDay, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(ciYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(51, 51, 51)
-                                    .addComponent(jLabel13)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(ciTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(5, 5, 5)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(ciMin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(ciToD, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane1)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel11)
-                                        .addComponent(jLabel2))
-                                    .addGap(27, 27, 27)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(ciEventName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(ciCreator, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(ciWhere, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel9)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(ciWeatherButton))
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(ciAddButton)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(inviteButton))
-                                .addComponent(jScrollPane3))
-                            .addGroup(layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(ciUpdateButton)
-                                .addGap(32, 32, 32)
-                                .addComponent(ciDeleteUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(100, 100, 100))
+                                .addGap(39, 39, 39)
+                                .addComponent(ciDeleteUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel2))
+                                .addGap(27, 27, 27)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ciEventName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ciCreator, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ciWhere, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(20, 20, 20)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ciMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ciDay, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ciYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(51, 51, 51)
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ciTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(5, 5, 5)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ciMin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ciToD, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(viewEvents)
+                                    .addComponent(ciAddButton)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel9)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(ciWeatherButton)
+                                                .addGap(183, 183, 183))
+                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(inviteButton)))
+                                .addGap(24, 24, 24)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGap(44, 44, 44))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {ciDeleteUpdate, ciUpdateButton});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {ciDeleteUpdate, ciUpdateButton});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {ciDay, ciMin, ciMonth, ciTime, ciToD, ciYear});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {ciDay, ciMin, ciMonth, ciTime, ciToD, ciYear});
 
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(ciCreator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ciEventName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel6)
                     .addComponent(ciMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,31 +355,49 @@ public class createEventsUI extends javax.swing.JFrame
                     .addComponent(ciMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(ciWhere, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(ciWeatherButton))
-                .addGap(19, 19, 19)
-                .addComponent(jLabel12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(ciWhere, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(ciWeatherButton))
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel12))
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inviteButton))
-                .addGap(20, 20, 20)
-                .addComponent(ciAddButton)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ciUpdateButton)
-                            .addComponent(ciDeleteUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inviteButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(20, 20, 20)
+                        .addComponent(ciAddButton)
+                        .addGap(24, 24, 24)
+                        .addComponent(viewEvents))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ciDeleteUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ciUpdateButton))
+                .addContainerGap())
+        );
+
+        jScrollPane1.setViewportView(jPanel1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
         );
 
         pack();
@@ -348,25 +409,34 @@ public class createEventsUI extends javax.swing.JFrame
 
     private void ciDeleteUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ciDeleteUpdateActionPerformed
         // TODO add your handling code here:
-         DefaultTableModel model = (DefaultTableModel) ciTable.getModel();
-        if(ciTable.getSelectedRow() == -1)
-        {
-            if (ciTable.getRowCount() == 0)
+      String[] option = {"yes" , "no"};
+      int answer = JOptionPane.showOptionDialog(null, "sure to delete??", "delete confirm", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, option, option[1]);
+      
+      if (answer == 0)
+      {
+        int index = ciTable.getSelectedRow();
+        String id = ciTable.getValueAt(index, 0).toString();
+        
+            if (new DBUpdate().delete(id))
+                    //ciEventName.getText(), ciDesc.getText(), 
+                      //            ciMonth.getSelectedItem().toString(), ciDay.getSelectedItem().toString(), ciYear.getSelectedItem().toString(), 
+                       //           ciWhere.getSelectedItem().toString(), ciCreator.getText()))
             {
-                ErrorMessage.setText("Table is Empty");
+                JOptionPane.showMessageDialog(null, "data deleted");
+                ciEventName.setText("");
+                ciDesc.setText("");
+                ciMonth.setSelectedItem("");
+                ciDay.setSelectedItem("");
+                ciYear.setSelectedItem("");
+                ciWhere.setSelectedItem("");
+                ciCreator.setText("");  
+                retrive();
             }
             else
             {
-                ErrorMessage.setText("You must select an event");
+               JOptionPane.showMessageDialog(null, "data not deleted"); 
             }
-        }
-        else
-        {
-           model.removeRow(ciTable.getSelectedRow()); 
-        }
-        
-        
-        
+      } 
     }//GEN-LAST:event_ciDeleteUpdateActionPerformed
 
     private void ciYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ciYearActionPerformed
@@ -378,67 +448,67 @@ public class createEventsUI extends javax.swing.JFrame
     }//GEN-LAST:event_ciDayActionPerformed
 
     private void ciUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ciUpdateButtonActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) ciTable.getModel();
-        if(ciTable.getSelectedRow() == -1)
-        {
-            if (ciTable.getRowCount() == 0)
+        int index = ciTable.getSelectedRow();
+        String id = ciTable.getValueAt(index, 0).toString();
+       
+        
+       
+        if (new DBUpdate().update(id, ciEventName.getText(), ciDesc.getText(), 
+                                  ciMonth.getSelectedItem().toString(), ciDay.getSelectedItem().toString(), ciYear.getSelectedItem().toString(), 
+                                  ciWhere.getSelectedItem().toString(), ciCreator.getText()))
             {
-                ErrorMessage.setText("Table is Empty");
+             ciEventName.setText(null);
+             ciDesc.setText(null);
+             ciMonth.setSelectedItem(00);
+             ciDay.setSelectedItem(00);
+             ciYear.setSelectedItem(0000);
+             ciWhere.setSelectedItem(0);
+             ciCreator.getText();
+             retrive();
             }
             else
             {
-                ErrorMessage.setText("You must select an event");
-            }
-        }
-        else
-        {
-           model.setValueAt(ciCreator.getText(), ciTable.getSelectedRow(), 0 ); 
-           model.setValueAt(ciEventName.getText(), ciTable.getSelectedRow(), 1);
-           model.setValueAt(ciMonth.getSelectedItem().toString() + "/" + ciDay.getSelectedItem().toString() + "/" + ciYear.getSelectedItem().toString(), ciTable.getSelectedRow(), 2);
-           model.setValueAt(ciTime.getSelectedItem().toString() + ":" + ciMin.getSelectedItem().toString() + " " + ciToD.getSelectedItem().toString(), ciTable.getSelectedRow(), 3);
-           model.setValueAt(ciWhere.getSelectedItem().toString(), ciTable.getSelectedRow(), 4);
+                JOptionPane.showMessageDialog(null, "data not updated");
+            }  
+        
             
-        }
+       
         
     }//GEN-LAST:event_ciUpdateButtonActionPerformed
 
     private void ciAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ciAddButtonActionPerformed
         // TODO add your handling code here:
         
-        DefaultTableModel model = (DefaultTableModel) ciTable.getModel();
-        model.addRow(new Object[]
-        {   ciCreator.getText(), 
-            ciEventName.getText(), 
-            ciMonth.getSelectedItem().toString() + "/" + ciDay.getSelectedItem().toString() + "/" + ciYear.getSelectedItem().toString(), 
-            ciTime.getSelectedItem().toString() + ":" + ciMin.getSelectedItem().toString() + " " + ciToD.getSelectedItem().toString(), 
-            ciWhere.getSelectedItem().toString()});
-
+            if (new DBUpdate().add(ciEventName.getText(), ciDesc.getText(), 
+                    ciMonth.getSelectedItem().toString(), ciDay.getSelectedItem().toString(), ciYear.getSelectedItem().toString(), 
+                    ciWhere.getSelectedItem().toString(), ciCreator.getText()))
+            {
+                ciEventName.setText(null);
+                ciDesc.setText(null);
+                ciMonth.setSelectedItem(00);
+                ciDay.setSelectedItem(00);
+                ciYear.setSelectedItem(0000);
+                ciWhere.setSelectedItem(0);
+                ciCreator.setText(null);
+                retrive();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "data not added");
+            }
+           
     }//GEN-LAST:event_ciAddButtonActionPerformed
 
     private void ciCreatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ciCreatorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ciCreatorActionPerformed
 
-    private void ciTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ciTableMouseClicked
-        // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) ciTable.getModel();
-        ciCreator.setText(model.getValueAt(ciTable.getSelectedRow(), 0).toString());
-        ciEventName.setText(model.getValueAt(ciTable.getSelectedRow(), 1).toString());
-        ciMonth.setSelectedItem(model.getValueAt(ciTable.getSelectedRow(), 2).toString());
-        ciDay.setSelectedItem(model.getValueAt(ciTable.getSelectedRow(), 2).toString()); 
-        ciYear.setSelectedItem(model.getValueAt(ciTable.getSelectedRow(), 2).toString());
-        ciTime.setSelectedItem(model.getValueAt(ciTable.getSelectedRow(), 3).toString());
-        ciMin.setSelectedItem(model.getValueAt(ciTable.getSelectedRow(), 3).toString()); 
-        ciToD.setSelectedItem(model.getValueAt(ciTable.getSelectedRow(), 3).toString()); 
-        ciWhere.setSelectedItem(model.getValueAt(ciTable.getSelectedRow(), 3).toString());
-        
-    }//GEN-LAST:event_ciTableMouseClicked
-
     private void ciWeatherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ciWeatherButtonActionPerformed
-       
-        JOptionPane.showMessageDialog(null,"Check Weather"); 
-        WeatherApp weather = new WeatherApp();
+     
+        JOptionPane.showMessageDialog(null,"Check Weather");
+        String loc = ciWhere.getSelectedItem().toString();
+        System.out.println(loc);
+        WeatherApp weather = new WeatherApp(loc);
         weather.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         weather.setVisible(true);
     }//GEN-LAST:event_ciWeatherButtonActionPerformed
@@ -448,49 +518,67 @@ public class createEventsUI extends javax.swing.JFrame
         //ciLocation = (String)cb.getSelectedItem();
     }//GEN-LAST:event_ciWhereActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(createEventsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(createEventsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(createEventsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(createEventsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void viewEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewEventsActionPerformed
+        // TODO add your handling code here:
+        retrive();
+    }//GEN-LAST:event_viewEventsActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new createEventsUI().setVisible(true);
+    private void ciTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ciTableMouseClicked
+        // TODO add your handling code here:
+        String name = ciTable.getValueAt(ciTable.getSelectedRow(), 1).toString();
+        String descr = ciTable.getValueAt(ciTable.getSelectedRow(), 2).toString();
+        String date = ciTable.getValueAt(ciTable.getSelectedRow(), 3).toString();
+        String loc = ciTable.getValueAt(ciTable.getSelectedRow(), 4).toString();
+        String creator = ciTable.getValueAt(ciTable.getSelectedRow(), 5).toString();
+        
+        invites.setText("<html>test<br>test<br>test<br>test2<br>test</html>");
+        
+        ciEventName.setText(name);
+        ciDesc.setText(descr);
+        ciDay.setSelectedItem(date.substring(0,2));
+        ciWhere.setSelectedItem(loc);
+        ciCreator.setText(creator);
+    }//GEN-LAST:event_ciTableMouseClicked
+
+    private void inviteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inviteButtonActionPerformed
+       
+          Email email = new Email(ciGuest.getText(), ciEventName.getText(), 
+                  "DATE: " + ciDay.getSelectedItem() + "/" + ciMonth.getSelectedItem() + "/" + ciYear.getSelectedItem() + "\n" +
+                  "TIME: " + ciTime.getSelectedItem() + "/" + ciMin.getSelectedItem() + "/" + ciToD.getSelectedItem() + "\n" +
+                  "LOCATION: " + ciWhere.getSelectedItem() + "\n" +
+                  "DESCRIPTION: " + ciDesc.getText());
+          if (new DBUpdate().addInvite(ciGuest.getText()))
+            {
+                inviteList.add(ciGuest.getText());
+        
+        
+        String newString = "<html>";
+        for (String s : inviteList) {
+            newString += s;
+            newString += "<br>";
+        }
+        newString += "</html>";
+        
+        invites.setText(newString);
             }
-        });
-    }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "data not added");
+            }
+         
+          
+    }//GEN-LAST:event_inviteButtonActionPerformed
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel ErrorMessage;
     private javax.swing.JButton ciAddButton;
     private javax.swing.JTextField ciCreator;
     private javax.swing.JComboBox ciDay;
     private javax.swing.JButton ciDeleteUpdate;
     private javax.swing.JTextArea ciDesc;
     private javax.swing.JTextField ciEventName;
+    private javax.swing.JTextArea ciGuest;
     private javax.swing.JComboBox ciMin;
     private javax.swing.JComboBox ciMonth;
     private javax.swing.JTable ciTable;
@@ -500,13 +588,14 @@ public class createEventsUI extends javax.swing.JFrame
     private javax.swing.JButton ciWeatherButton;
     private javax.swing.JComboBox ciWhere;
     private javax.swing.JComboBox ciYear;
-    private javax.swing.JTextArea ciguest;
     private javax.swing.JButton inviteButton;
+    private javax.swing.JLabel invites;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -515,8 +604,12 @@ public class createEventsUI extends javax.swing.JFrame
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JButton viewEvents;
     // End of variables declaration//GEN-END:variables
 }

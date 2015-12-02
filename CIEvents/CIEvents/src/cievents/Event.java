@@ -22,6 +22,7 @@ public class Event {
     private Member eventCreator;
     private ArrayList<String> inviteList;
     
+    private Email email;
     public Event(int id, String name, String descr, String date, String loc, Member eventCreator, ArrayList<String> inviteList) {
         this.id = id;
         this.eventName = name;
@@ -94,15 +95,24 @@ public class Event {
     }
     
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        for (String invitee : this.inviteList)
-            str.append(invitee + "\n");
+        String inviteString = "";
+        for (int i = 0; i < inviteList.size(); i++)
+        {
+            inviteString += inviteList.get(i) + ", ";
+        }
         
-        return "Event Name: " + this.eventName + "\nEvent Organizer: " + this.eventCreator.getEmail() + "\nDescription: " + this.eventDescr + "\nDate: " + this.eventDate + "\nLocation: " + this.eventLoc + "\nInvitees:\n" + str.toString();
+        return "Event Name: " + this.eventName + "\nEvent Organizer: " + this.eventCreator.getEmail() + "\nDescription: " + 
+                this.eventDescr + "\nDate: " + this.eventDate + "\nLocation: " + this.eventLoc + "\nInviteList:\n" + inviteList + inviteString;
     }
     
     //business methods
     
+    public void addUser(String email) {
+        System.out.println("adding user");
+            inviteList.add(email);
+            
+    }
+            
     public void addInvitee(String invitee) {
         this.inviteList.add(invitee);
     }

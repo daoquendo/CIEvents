@@ -9,6 +9,8 @@ package cievents;
 
 import java.sql.*;
 import java.util.*;
+import javax.swing.*;
+
 
 /**
  *
@@ -60,7 +62,7 @@ public class Database {
 
         //create invite table (ignored if already exists)
         try {
-            stmt.execute("CREATE TABLE APP.invite(event_id int NOT NULL,"
+            stmt.execute("CREATE TABLE APP.invite(event_id int NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
                     + "email varchar(64))");
         } catch (SQLException sqle)
         {
@@ -302,6 +304,7 @@ public class Database {
         
         return memberList;
     }
+    
     
     public void deleteAllTableData()
     {

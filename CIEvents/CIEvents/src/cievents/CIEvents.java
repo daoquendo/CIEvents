@@ -13,55 +13,37 @@ import java.util.*;
  */
 public class CIEvents {
     
-    public static void main(String[] args) {
-        Database db = new Database();
-        db.deleteAllTableData();
-        //creating members
-        Member me = new Member("Brian Ortiz", "botw89lozla");
-        Member him = new Member("Brian Radomski", "sot89lozoot");
-        Member her = new Member("Daniela Miles", "nos89lozoot");
-        
-        //adding members 
-        db.addMember(me);
-        db.addMember(him);
-        db.addMember(her);
-        
-        //testing getMemberList
-        ArrayList<Member> memberList = db.getMemberList();
-        for (Member member : memberList)
-            System.out.println(member.toString());
-        
-        //creating invite lists
-        ArrayList<String> myInvitees = new ArrayList<String>();
-        myInvitees.add("brianortiz@gmail.com");
-        myInvitees.add("brianradomski@gmail.com");
-        
-        ArrayList<String> hisInvitees = new ArrayList<String>(myInvitees);
-        hisInvitees.add("javiermercado@gmail.com");
-        
-        ArrayList<String> herInvitees = new ArrayList<String>(myInvitees);
-        herInvitees.add("robertocervantes@gmail.com");
-        
-        //creating events
-        Event event1 = new Event(0, "Super Smash Bros. Melee Tournament 1", "Competitive SSBM tournament.", "11/18/15", "Thousand Oaks Mall", me, myInvitees);
-        Event event2 = new Event(0, "Super Smash Bros. Melee Tournament 2", "Competitive SSBM tournament.", "11/18/15", "Thousand Oaks Mall", him, hisInvitees);
-        Event event3 = new Event(0, "Super Smash Bros. Melee Tournament 3", "Competitive SSBM tournament.", "11/18/15", "Thousand Oaks Mall", her, herInvitees);
-        
-        db.addEvent(event1);
-        db.addEvent(event2);
-        db.addEvent(event3);
-        
-        //edit event1
-        Event editedEvent = db.getEvent(event1);
-        editedEvent.setEventDate("11/19/15");
-        db.editEvent(editedEvent);
-        
-        ArrayList<Event> eventList = db.getEventList();
-        
-        for(Event tmp : eventList)
-            System.out.println(tmp.toString());
-        
-     
+     public static void main(String args[]) {
+         
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(EventsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(EventsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(EventsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(EventsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new EventsUI().setVisible(true);
+            }
+        });
     }
     
 }
